@@ -145,4 +145,15 @@ describe("Catalog", function () {
         assert.equal(catalog.getString("Archive", {}, "verb"), "Archiveren");
         assert.equal(catalog.getString("Archive", {}, "noun"), "Archief");
     });
+
+    it("Should return string from fallback language", function () {
+        var strings = { Hello: "Hallo" };
+        catalog.setStrings("xx", strings);
+        catalog.setCurrentLanguage("nl_NL");
+        catalog.setFallbackLanguage("xx");
+        // It should check strings for nl_NL, then strings for nl
+        assert.equal(catalog.getString("Bye"), "Bye");
+        assert.equal(catalog.getString("Hello"), "Hallo");
+    });
+
 });

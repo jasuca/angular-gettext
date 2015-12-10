@@ -50,10 +50,16 @@ angular.module('gettext').factory('gettextCatalog', ["gettextPlurals", "$http", 
         strings: {},
         baseLanguage: 'en',
         currentLanguage: 'en',
+        fallbackLanguage: 'en',
         cache: $cacheFactory('strings'),
 
         setCurrentLanguage: function (lang) {
             this.currentLanguage = lang;
+            broadcastUpdated();
+        },
+
+        setFallbackLanguage: function (lang) {
+            this.fallbackLanguage = lang;
             broadcastUpdated();
         },
 
@@ -93,7 +99,7 @@ angular.module('gettext').factory('gettextCatalog', ["gettextPlurals", "$http", 
         },
 
         getStringForm: function (string, n, context) {
-            var stringTable = this.strings[this.currentLanguage] || {};
+            var stringTable = this.strings[this.currentLanguage] || this.strings[this.fallbackLanguage] || {};
             var contexts = stringTable[string] || {};
             var plurals = contexts[context || noContext] || [];
             return plurals[n];
