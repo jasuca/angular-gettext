@@ -128,6 +128,14 @@ angular.module('gettext').factory('gettextCatalog', function (gettextPlurals, ge
          * @description Language cache for lazy load
          */
         cache: $cacheFactory('strings'),
+        /**
+         * @ngdoc property
+         * @name gettextCatalog#fallbackLanguage
+         * @public
+         * @type {String}
+         * @description Fallback language.
+         */
+        fallbackLanguage: undefined,
 
         /**
          * @ngdoc method
@@ -138,6 +146,18 @@ angular.module('gettext').factory('gettextCatalog', function (gettextPlurals, ge
          */
         setCurrentLanguage: function (lang) {
             this.currentLanguage = lang;
+            broadcastUpdated();
+        },
+
+        /**
+         * @ngdoc method
+         * @name gettextCatalog#setFallbackLanguage
+         * @public
+         * @param {String} lang language name
+         * @description Sets the fallback language and makes sure that all translations get updated correctly.
+         */
+        setFallbackLanguage: function (lang) {
+            this.fallbackLanguage = lang;
             broadcastUpdated();
         },
 
@@ -236,7 +256,10 @@ angular.module('gettext').factory('gettextCatalog', function (gettextPlurals, ge
          * Avoid using scopes - this skips interpolation and is a lot faster.
          */
         getString: function (string, scope, context) {
-            var fallbackLanguage = gettextFallbackLanguage(this.currentLanguage);
+            var fallbackLanguage = this.fallbackLanguage;
+            if (fallbackLanguage === undefined) {
+                fallbackLanguage = gettextFallbackLanguage(this.currentLanguage);
+            }
             string = this.getStringFormFor(this.currentLanguage, string, 1, context) ||
                      this.getStringFormFor(fallbackLanguage, string, 1, context) ||
                      prefixDebug(string);

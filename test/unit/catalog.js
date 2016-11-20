@@ -170,4 +170,17 @@ describe("Catalog", function () {
         assert.equal(catalog.getString("Bye"), "Bye");
         assert.equal(catalog.getString("Baggage"), "Luggage");
     });
+
+    it("Should return empty when no fallback language", function () {
+        catalog.setCurrentLanguage("nl_NL");
+        assert.equal(catalog.getString("Hello"), "Hello");
+    });
+
+    it("Should return string same if current and fallback languages not defined", function () {
+        var strings = { Hello: "Hallo" };
+        catalog.setStrings("xx", strings);
+        catalog.setCurrentLanguage("nl_NL");
+        catalog.setFallbackLanguage("xx");
+        assert.equal(catalog.getString("????"), "????");
+    });
 });
