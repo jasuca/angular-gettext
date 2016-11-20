@@ -16,6 +16,24 @@ describe("Plurals", function () {
     it("Plural form of zero in english is 1", function () {
         assert.equal(plurals("en", 0), 1);
     });
+    it("Plural form of singular english (locale en_US) is 0", function () {
+        assert.equal(plurals("en_US", 1), 0);
+    });
+    it("Plural form of plural english (locale en_US) is 1", function () {
+        assert.equal(plurals("en_US", 2), 1);
+    });
+    it("Plural form of zero in english (locale en_US) is 1", function () {
+        assert.equal(plurals("en_US", 0), 1);
+    });
+    it("Plural form of singular english (locale en-US) is 0", function () {
+        assert.equal(plurals("en-US", 1), 0);
+    });
+    it("Plural form of plural english (locale en-US) is 1", function () {
+        assert.equal(plurals("en-US", 2), 1);
+    });
+    it("Plural form of zero in english (locale en-US) is 1", function () {
+        assert.equal(plurals("en-US", 0), 1);
+    });
     it("Plural form of singular dutch is 0", function () {
         assert.equal(plurals("nl", 1), 0);
     });
@@ -31,7 +49,7 @@ describe("Plurals", function () {
     it("Plural form of plural french is 1", function () {
         assert.equal(plurals("fr", 2), 1);
     });
-    it("Plural form of zero in french is 1", function () {
+    it("Plural form of zero in french is 0", function () {
         assert.equal(plurals("fr", 0), 0);
     });
     it("Plural form of 27 in arabic is 4", function () {
